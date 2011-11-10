@@ -442,7 +442,7 @@ Status BTreeFile::_searchIndexNode(const char *key,  PageID currentID, IndexPage
 	currentIndex->Search(key, *iter);
 	char * c;
 	iter->GetNext(c, nextPid); //NEXT???   NEED to check if Fail
-	// may need to deallocate iter *************
+	// may need to deallocate iter ************
 	UNPIN(currentID, CLEAN);
 	Status s = _searchTree (key, nextPid, lowIndex);
 	if (s == FAIL)
