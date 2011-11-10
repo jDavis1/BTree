@@ -49,7 +49,7 @@ Status BTreeFileScan::GetNext (RecordID & rid, char*& keyPtr)
     if(this->done){
 		return DONE;
     }
-  //  LeafPage* currentPage = NULL;
+    //  LeafPage* currentPage = NULL;
     PIN((currentRecord.pageNo),currentPage);
     while(!(this->done)){
 		//char * k;
@@ -58,28 +58,28 @@ Status BTreeFileScan::GetNext (RecordID & rid, char*& keyPtr)
 			if(this->highKey == NULL || strcmp(keyPtr,this->highKey) <= 0){
 			//withing upper bound
 				if(this->lowKey == NULL || strcmp(keyPtr,this->lowKey) >= 0){
-				//within lower bount
+					//within lower bount
 					MINIBASE_BM->UnpinPage(currentPage->PageNo());
-                    return OK;
-                }else{
+	              	return OK;
+	            }else{
 					continue; //haven't reached range yet
-                }
-            }else{
+	            }
+	        }else{
 				//exceeded upper bound
 				this->done = true;
-                rid.pageNo = INVALID_PAGE;
-                rid.slotNo = -1;
-                UNPIN((currentPage->PageNo()), CLEAN);
-                return DONE;
-            }
+	            rid.pageNo = INVALID_PAGE;
+	           	rid.slotNo = -1;
+	            UNPIN((currentPage->PageNo()), CLEAN);
+	            return DONE;
+	        }
 		}
         // s == DONE
         else{
-        // go to next page
+        	// go to next page
 			currentRecord.pageNo = currentPage->GetNextPage();
-            currentRecord.slotNo = -1;
+        	currentRecord.slotNo = -1;
             if(currentRecord.pageNo == INVALID_PAGE){
-				//no more pages
+			/	/no more pages
 				this->done = true;
                 UNPIN(currentPage->PageNo(), CLEAN);
                 return DONE;
@@ -88,15 +88,15 @@ Status BTreeFileScan::GetNext (RecordID & rid, char*& keyPtr)
             if(MINIBASE_BM->PinPage(currentRecord.pageNo, (Page*&)currentPage)!=OK){
 				// ???
 				this->done = true;
-                rid.pageNo = INVALID_PAGE;
-                rid.slotNo = -1;
-                return DONE;
+	            rid.pageNo = INVALID_PAGE;
+        	    rid.slotNo = -1;
+            	return DONE;
             }else{
-				// Do check process above again???
-				//change iter
+			// Do check process above again???
+			//change iter
 			}
 		}
-	}
+    }
 	return FAIL;//!!!!!! shouldn't be needed???
 }
 
@@ -116,7 +116,7 @@ Status BTreeFileScan::DeleteCurrent () {
 	//Add your code here. 
     if(done){
 		return DONE;
-	}
+    }
     //LeafPage* currentPage = NULL;
     PIN(currentRecord.pageNo, currentPage);
     iter->DeleteCurrent();
