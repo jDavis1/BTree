@@ -29,7 +29,15 @@ private:
 
 	//Note that the constructor is prova
 	BTreeFileScan();
+	const char * lowKey;
+   	const char * highKey;
+   	BTreeFile* bt; //not needed???
+	RecordID currentRecord; //could just be page #????
+    	bool done;
+	PageKVScan<RecordID>* iter;
+	LeafPage* currentPage; 
 
+	Status BTreeFileScan::_SetIter();
 
 	// You may add private methods here. 
 
