@@ -79,7 +79,7 @@ Status BTreeFileScan::GetNext (RecordID & rid, char*& keyPtr)
 			currentRecord.pageNo = currentPage->GetNextPage();
         	currentRecord.slotNo = -1;
             if(currentRecord.pageNo == INVALID_PAGE){
-			/	/no more pages
+			//no more pages
 				this->done = true;
                 UNPIN(currentPage->PageNo(), CLEAN);
                 return DONE;
